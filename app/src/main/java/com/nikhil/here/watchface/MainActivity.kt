@@ -11,10 +11,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -34,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nikhil.here.watchface.ui.theme.WatchfaceTheme
 import kotlinx.coroutines.delay
+import java.util.Calendar
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -68,20 +68,43 @@ class MainActivity : ComponentActivity() {
                             mutableStateOf(0f)
                         }
 
+                        var hour by remember {
+                            mutableStateOf(0)
+                        }
+
+                        LaunchedEffect(key1 = true) {
+                            val calender = Calendar.getInstance()
+                            val currentHour = calender.get(Calendar.HOUR)
+                            val currentMinute = calender.get(Calendar.MINUTE)
+                            val currentSecond = calender.get(Calendar.SECOND)
+                            secondRotation =  -(currentSecond) * 6f
+                            minuteRotation = -(currentMinute) * 6f
+                            hour = currentHour
+                        }
+
 
                         LaunchedEffect(key1 = true) {
                             while (true) {
                                 delay(100)
-                                secondRotation-=0.6f
+                                secondRotation -= 0.6f
                             }
                         }
 
                         LaunchedEffect(key1 = true) {
                             while (true) {
                                 delay(1000)
-                                minuteRotation-=0.1f
+                                minuteRotation -= 0.1f
                             }
                         }
+
+                        LaunchedEffect(key1 = true) {
+                            while (true) {
+                                delay(60 * 60 * 1000L)
+                                hour = (hour + 1) % 24
+                            }
+                        }
+
+
 
 
                         Canvas(
@@ -110,7 +133,7 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 val secondsStepStartOffsetV2 = Offset(
-                                    x = center.x + (outerRadius * cos((secondHandAngleV2 + secondRotation)  * (Math.PI / 180))).toFloat(),
+                                    x = center.x + (outerRadius * cos((secondHandAngleV2 + secondRotation) * (Math.PI / 180))).toFloat(),
                                     y = center.y - (outerRadius * sin((secondHandAngleV2 + secondRotation) * (Math.PI / 180))).toFloat()
                                 )
 
@@ -237,10 +260,10 @@ class MainActivity : ComponentActivity() {
                             }
 
 
-
                             //draw hour
+                            val hourString = String.format("%02d", hour)
                             val hourTextMeasureOutput = textMeasurer.measure(
-                                buildAnnotatedString { append("12") },
+                                buildAnnotatedString { append(hourString) },
                                 style = TextStyle(fontSize = 56.sp, fontWeight = FontWeight.Bold)
                             )
                             val hourTopLeft = Offset(
@@ -249,7 +272,7 @@ class MainActivity : ComponentActivity() {
                             )
                             drawText(
                                 textMeasurer = textMeasurer,
-                                text = "12",
+                                text = hourString,
                                 topLeft = hourTopLeft,
                                 style = TextStyle(
                                     fontSize = 56.sp,
@@ -289,7 +312,11 @@ class MainActivity : ComponentActivity() {
                             drawPath(
                                 minuteHandOverlayPath,
                                 color = Color.Red,
-                                style = Stroke(width = 4f, join = StrokeJoin.Round, cap = StrokeCap.Round)
+                                style = Stroke(
+                                    width = 4f,
+                                    join = StrokeJoin.Round,
+                                    cap = StrokeCap.Round
+                                )
                             )
 
 
