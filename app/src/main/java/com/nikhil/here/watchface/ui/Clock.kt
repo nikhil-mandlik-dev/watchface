@@ -164,7 +164,7 @@ fun DrawScope.Dial(
     logComposition : Boolean = false
 ) {
 
-    var secondHandAngleV2 = 0
+    var stepsAngle = 0
 
     if (logComposition) {
         Log.i(TAG, "Dial: ")
@@ -186,16 +186,16 @@ fun DrawScope.Dial(
         }
 
         val secondsStepStartOffsetV2 = Offset(
-            x = center.x + (radius * cos((secondHandAngleV2 + rotation) * (Math.PI / 180))).toFloat(),
-            y = center.y - (radius * sin((secondHandAngleV2 + rotation) * (Math.PI / 180))).toFloat()
+            x = center.x + (radius * cos((stepsAngle + rotation) * (Math.PI / 180))).toFloat(),
+            y = center.y - (radius * sin((stepsAngle + rotation) * (Math.PI / 180))).toFloat()
         )
 
         val secondsStepsEndOffsetV2 = Offset(
             x = center.x + (radius - stepsHeight) * cos(
-                (secondHandAngleV2 + rotation) * (Math.PI / 180)
+                (stepsAngle + rotation) * (Math.PI / 180)
             ).toFloat(),
             y = center.y - (radius - stepsHeight) * sin(
-                (secondHandAngleV2 + rotation) * (Math.PI / 180)
+                (stepsAngle + rotation) * (Math.PI / 180)
             ).toFloat()
         )
 
@@ -219,10 +219,10 @@ fun DrawScope.Dial(
 
             val secondsLabelOffsetV2 = Offset(
                 x = center.x + (radius - stepsHeight - 12.dp.toPx()) * cos(
-                    (secondHandAngleV2 + rotation) * (Math.PI / 180)
+                    (stepsAngle + rotation) * (Math.PI / 180)
                 ).toFloat(),
                 y = center.y - (radius - stepsHeight - 12.dp.toPx()) * sin(
-                    (secondHandAngleV2 + rotation) * (Math.PI / 180)
+                    (stepsAngle + rotation) * (Math.PI / 180)
                 ).toFloat()
             )
 
@@ -237,6 +237,6 @@ fun DrawScope.Dial(
                 topLeft = topLeft
             )
         }
-        secondHandAngleV2 += 6
+        stepsAngle += 6
     }
 }
