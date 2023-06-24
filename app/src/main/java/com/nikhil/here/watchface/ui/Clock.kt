@@ -1,5 +1,6 @@
 package com.nikhil.here.watchface.ui
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -14,8 +15,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.drawText
@@ -24,10 +27,11 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import java.time.Clock
 import java.util.Calendar
 import kotlin.math.cos
 import kotlin.math.sin
+
+private const val TAG = "Clock"
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
@@ -57,8 +61,8 @@ fun Clock() {
 
     LaunchedEffect(key1 = true) {
         while (true) {
-            delay(100)
-            secondRotation -= 0.6f
+            delay(14)
+            secondRotation -= 0.084f
         }
     }
 
@@ -84,149 +88,11 @@ fun Clock() {
         val outerRadius = minOf(this.size.width, this.size.height) / 2f
         val innerRadius = outerRadius - 42.dp.toPx()
 
-        //draw minute dial
-        drawCircle(
-            color = Color.Black,
-            radius = outerRadius,
-            center = center,
-            style = Stroke(width = 1f)
-        )
+        //Seconds Dial
+        Dial(radius = outerRadius, rotation = secondRotation, textMeasurer = textMeasurer)
 
-        var secondHandAngleV2 = 0
-        repeat(60) { handIndex ->
-            val stepsHeight = if (handIndex % 5 == 0) {
-                16.dp.toPx()
-            } else {
-                8.dp.toPx()
-            }
-
-            val secondsStepStartOffsetV2 = Offset(
-                x = center.x + (outerRadius * cos((secondHandAngleV2 + secondRotation) * (Math.PI / 180))).toFloat(),
-                y = center.y - (outerRadius * sin((secondHandAngleV2 + secondRotation) * (Math.PI / 180))).toFloat()
-            )
-
-            val secondsStepsEndOffsetV2 = Offset(
-                x = center.x + (outerRadius - stepsHeight) * cos(
-                    (secondHandAngleV2 + secondRotation) * (Math.PI / 180)
-                ).toFloat(),
-                y = center.y - (outerRadius - stepsHeight) * sin(
-                    (secondHandAngleV2 + secondRotation) * (Math.PI / 180)
-                ).toFloat()
-            )
-
-            drawLine(
-                color = Color.Black,
-                start = secondsStepStartOffsetV2,
-                end = secondsStepsEndOffsetV2,
-                strokeWidth = 1f
-            )
-
-            if (handIndex % 5 == 0) {
-
-                val secondsLabelV2 = String.format("%02d", handIndex)
-
-                val output =
-                    textMeasurer.measure(buildAnnotatedString {
-                        append(
-                            secondsLabelV2
-                        )
-                    })
-
-                val secondsLabelOffsetV2 = Offset(
-                    x = center.x + (outerRadius - stepsHeight - 12.dp.toPx()) * cos(
-                        (secondHandAngleV2 + secondRotation) * (Math.PI / 180)
-                    ).toFloat(),
-                    y = center.y - (outerRadius - stepsHeight - 12.dp.toPx()) * sin(
-                        (secondHandAngleV2 + secondRotation) * (Math.PI / 180)
-                    ).toFloat()
-                )
-
-                val topLeft = Offset(
-                    secondsLabelOffsetV2.x - ((output.size.width) / 2f),
-                    secondsLabelOffsetV2.y - (output.size.height / 2f)
-                )
-
-                drawText(
-                    textMeasurer = textMeasurer,
-                    text = secondsLabelV2,
-                    topLeft = topLeft
-                )
-            }
-            secondHandAngleV2 += 6
-        }
-
-
-        //draw minute dial
-        drawCircle(
-            color = Color.Black,
-            radius = innerRadius,
-            center = center,
-            style = Stroke(width = 1f)
-        )
-
-        var minuteHandAngle = 0
-        repeat(60) { handIndex ->
-            val stepsHeight = if (handIndex % 5 == 0) {
-                16.dp.toPx()
-            } else {
-                8.dp.toPx()
-            }
-
-            val minuteStepsStartOffset = Offset(
-                x = center.x + (innerRadius * cos((minuteHandAngle + minuteRotation) * (Math.PI / 180))).toFloat(),
-                y = center.y - (innerRadius * sin((minuteHandAngle + minuteRotation) * (Math.PI / 180))).toFloat()
-            )
-
-            val minuteStepsEndOffset = Offset(
-                x = center.x + (innerRadius - stepsHeight) * cos(
-                    (minuteHandAngle + minuteRotation) * (Math.PI / 180)
-                ).toFloat(),
-                y = center.y - (innerRadius - stepsHeight) * sin(
-                    (minuteHandAngle + minuteRotation) * (Math.PI / 180)
-                ).toFloat()
-            )
-
-            drawLine(
-                color = Color.Black,
-                start = minuteStepsStartOffset,
-                end = minuteStepsEndOffset,
-                strokeWidth = 1f
-            )
-
-            if (handIndex % 5 == 0) {
-
-                val minuteLabel = String.format("%02d", handIndex)
-
-                val output =
-                    textMeasurer.measure(buildAnnotatedString {
-                        append(
-                            minuteLabel
-                        )
-                    })
-
-                val minuteLabelOffset = Offset(
-                    x = center.x + (innerRadius - stepsHeight - 12.dp.toPx()) * cos(
-                        (minuteHandAngle + minuteRotation) * (Math.PI / 180)
-                    ).toFloat(),
-                    y = center.y - (innerRadius - stepsHeight - 12.dp.toPx()) * sin(
-                        (minuteHandAngle + minuteRotation) * (Math.PI / 180)
-                    ).toFloat()
-                )
-
-                val topLeft = Offset(
-                    minuteLabelOffset.x - ((output.size.width) / 2f),
-                    minuteLabelOffset.y - (output.size.height / 2f)
-                )
-
-                drawText(
-                    textMeasurer = textMeasurer,
-                    text = minuteLabel,
-                    topLeft = topLeft
-                )
-            }
-            minuteHandAngle += 6
-        }
-
+        //Minute Dial
+        Dial(radius = innerRadius, rotation = minuteRotation, textMeasurer = textMeasurer)
 
         //draw hour
         val hourString = String.format("%02d", hour)
@@ -286,5 +152,91 @@ fun Clock() {
                 cap = StrokeCap.Round
             )
         )
+    }
+}
+
+
+@OptIn(ExperimentalTextApi::class)
+fun DrawScope.Dial(
+    radius : Float,
+    rotation : Float,
+    textMeasurer: TextMeasurer,
+    logComposition : Boolean = false
+) {
+
+    var secondHandAngleV2 = 0
+
+    if (logComposition) {
+        Log.i(TAG, "Dial: ")
+    }
+
+    //draw minute dial
+    drawCircle(
+        color = Color.Black,
+        radius = radius,
+        center = center,
+        style = Stroke(width = 1f)
+    )
+
+    repeat(60) { handIndex ->
+        val stepsHeight = if (handIndex % 5 == 0) {
+            16.dp.toPx()
+        } else {
+            8.dp.toPx()
+        }
+
+        val secondsStepStartOffsetV2 = Offset(
+            x = center.x + (radius * cos((secondHandAngleV2 + rotation) * (Math.PI / 180))).toFloat(),
+            y = center.y - (radius * sin((secondHandAngleV2 + rotation) * (Math.PI / 180))).toFloat()
+        )
+
+        val secondsStepsEndOffsetV2 = Offset(
+            x = center.x + (radius - stepsHeight) * cos(
+                (secondHandAngleV2 + rotation) * (Math.PI / 180)
+            ).toFloat(),
+            y = center.y - (radius - stepsHeight) * sin(
+                (secondHandAngleV2 + rotation) * (Math.PI / 180)
+            ).toFloat()
+        )
+
+        drawLine(
+            color = Color.Black,
+            start = secondsStepStartOffsetV2,
+            end = secondsStepsEndOffsetV2,
+            strokeWidth = 1f
+        )
+
+        if (handIndex % 5 == 0) {
+
+            val secondsLabelV2 = String.format("%02d", handIndex)
+
+            val output =
+                textMeasurer.measure(buildAnnotatedString {
+                    append(
+                        secondsLabelV2
+                    )
+                })
+
+            val secondsLabelOffsetV2 = Offset(
+                x = center.x + (radius - stepsHeight - 12.dp.toPx()) * cos(
+                    (secondHandAngleV2 + rotation) * (Math.PI / 180)
+                ).toFloat(),
+                y = center.y - (radius - stepsHeight - 12.dp.toPx()) * sin(
+                    (secondHandAngleV2 + rotation) * (Math.PI / 180)
+                ).toFloat()
+            )
+
+            val topLeft = Offset(
+                secondsLabelOffsetV2.x - ((output.size.width) / 2f),
+                secondsLabelOffsetV2.y - (output.size.height / 2f)
+            )
+
+            drawText(
+                textMeasurer = textMeasurer,
+                text = secondsLabelV2,
+                topLeft = topLeft
+            )
+        }
+        secondHandAngleV2 += 6
     }
 }
