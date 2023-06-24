@@ -33,7 +33,7 @@ private const val TAG = "Dial"
  */
 @OptIn(ExperimentalTextApi::class)
 @Composable
-fun Dial(
+fun TestDial(
     modifier: Modifier,
     radius: DrawScope.() -> Float,
     rotation: () -> Float,
