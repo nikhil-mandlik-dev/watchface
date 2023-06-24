@@ -21,6 +21,13 @@ val WorkSans = FontFamily(
     Font(R.font.ws_thin,FontWeight.Thin),
 )
 
+val MerriWeather = FontFamily(
+    Font(R.font.merriweather_regular,FontWeight.Normal),
+    Font(R.font.merriweather_light,FontWeight.Light),
+    Font(R.font.merriweather_bold,FontWeight.Bold),
+    Font(R.font.merriweather_black,FontWeight.Black)
+)
+
 
 // Set of Material typography styles to start with
 val Typography = Typography(

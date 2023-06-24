@@ -12,4 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val Marron = Color(0xFF260813)
 val Marron2 = Color(0xFF8C3253)
-val Marron3 = Color(0xFF0D0300)
+
+
+val Brown = Color(0xFFE7CEA6)
+

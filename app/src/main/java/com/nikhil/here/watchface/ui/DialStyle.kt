@@ -125,3 +125,36 @@ val lightStyle = ClockStyle(
 )
 
 
+
+
+val BrownStyle = ClockStyle(
+    secondsDialStyle = DialStyle().copy(
+        stepsTextStyle = TextStyle(
+            color = Color.Black.copy(alpha = 0.8f),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Medium,
+            fontFamily = MerriWeather
+        ),
+        stepsColor = Color.Black.copy(alpha = 0.5f),
+        stepsLabelTopPadding = 20.dp
+    ),
+    minutesDialStyle = DialStyle().copy(
+        stepsTextStyle = TextStyle(
+            color = Color.Black.copy(alpha = 0.8f),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Medium,
+            fontFamily = MerriWeather
+        ),
+        stepsColor = Color.Black.copy(alpha = 0.5f),
+        stepsLabelTopPadding = 20.dp
+    ),
+    hourLabelStyle = TextStyle(
+        color = Color.Black,
+        fontSize = 60.sp,
+        fontWeight = FontWeight.Bold,
+        fontFamily = MerriWeather
+    ),
+    overlayStrokeColor = Color.Black,
+    overlayStrokeWidth = 2.dp
+)
+

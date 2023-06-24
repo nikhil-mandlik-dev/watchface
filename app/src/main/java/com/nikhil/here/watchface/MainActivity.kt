@@ -16,10 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.unit.dp
+import com.nikhil.here.watchface.ui.BrownStyle
 import com.nikhil.here.watchface.ui.Clock
 import com.nikhil.here.watchface.ui.MarronStyle
 import com.nikhil.here.watchface.ui.StandardClockStyle
 import com.nikhil.here.watchface.ui.lightStyle
+import com.nikhil.here.watchface.ui.theme.Brown
 import com.nikhil.here.watchface.ui.theme.Marron
 import com.nikhil.here.watchface.ui.theme.WatchfaceTheme
 
@@ -38,7 +40,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
 
                 HorizontalPager(
-                    pageCount = 3,
+                    pageCount = 4,
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     when(it) {
@@ -79,6 +81,19 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier
                                         .size(360.dp),
                                     clockStyle = MarronStyle
+                                )
+                            }
+                        }
+                        3 -> {
+                            Column(
+                                modifier = Modifier.fillMaxSize().background(Brown),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Clock(
+                                    modifier = Modifier
+                                        .size(360.dp),
+                                    clockStyle = BrownStyle
                                 )
                             }
                         }
