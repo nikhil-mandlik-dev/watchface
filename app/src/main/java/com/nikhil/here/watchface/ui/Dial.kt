@@ -56,7 +56,7 @@ fun DrawScope.dial(
                 text = buildAnnotatedString { append(stepsLabel) },
                 style = dialStyle.stepsTextStyle
             )
-            val secondsLabelOffsetV2 = Offset(
+            val stepsLabelOffset = Offset(
                 x = center.x + (radius - stepsHeight - dialStyle.stepsLabelTopPadding.toPx()) * cos(
                     (stepsAngle + rotation) * (Math.PI / 180)
                 ).toFloat(),
@@ -66,8 +66,8 @@ fun DrawScope.dial(
             )
 
             val stepsLabelTopLeft = Offset(
-                secondsLabelOffsetV2.x - ((stepsLabelTextLayout.size.width) / 2f),
-                secondsLabelOffsetV2.y - (stepsLabelTextLayout.size.height / 2f)
+                stepsLabelOffset.x - ((stepsLabelTextLayout.size.width) / 2f),
+                stepsLabelOffset.y - (stepsLabelTextLayout.size.height / 2f)
             )
 
             drawText(
