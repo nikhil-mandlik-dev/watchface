@@ -6,7 +6,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nikhil.here.watchface.ui.theme.*
+import com.nikhil.here.watchface.ui.theme.Marron2
+import com.nikhil.here.watchface.ui.theme.MerriWeather
+import com.nikhil.here.watchface.ui.theme.WorkSans
 
 data class DialStyle(
     val stepsWidth: Dp = 1.2.dp,
@@ -58,8 +60,6 @@ val StandardClockStyle = ClockStyle(
 )
 
 
-
-
 val MarronStyle = ClockStyle(
     secondsDialStyle = DialStyle().copy(
         stepsTextStyle = TextStyle(
@@ -92,7 +92,6 @@ val MarronStyle = ClockStyle(
 )
 
 
-
 val lightStyle = ClockStyle(
     secondsDialStyle = DialStyle().copy(
         stepsTextStyle = TextStyle(
@@ -123,8 +122,6 @@ val lightStyle = ClockStyle(
     overlayStrokeColor = Color.Black,
     overlayStrokeWidth = 2.dp
 )
-
-
 
 
 val BrownStyle = ClockStyle(

@@ -46,7 +46,7 @@ fun Clock(
 
     LaunchedEffect(key1 = true) {
         val calender = Calendar.getInstance()
-        val currentHour = calender.get(Calendar.HOUR)
+        val currentHour = calender.get(Calendar.HOUR_OF_DAY)
         val currentMinute = calender.get(Calendar.MINUTE)
         val currentSecond = calender.get(Calendar.SECOND)
         secondRotation = -(currentSecond) * 6f

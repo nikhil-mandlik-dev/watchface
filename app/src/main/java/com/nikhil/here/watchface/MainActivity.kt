@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,24 +42,12 @@ class MainActivity : ComponentActivity() {
                     pageCount = 4,
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    when(it) {
+                    when (it) {
                         0 -> {
                             Column(
-                                modifier = Modifier.fillMaxSize().background(Color.White),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Clock(
-                                    modifier = Modifier
-                                        .size(360.dp),
-                                    clockStyle = lightStyle
-                                )
-                            }
-
-                        }
-                        1 -> {
-                            Column(
-                                modifier = Modifier.fillMaxSize().background(Color.Black),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Color.Black),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
@@ -71,9 +58,28 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
+
+                        1 -> {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Color.White),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Clock(
+                                    modifier = Modifier
+                                        .size(360.dp),
+                                    clockStyle = lightStyle
+                                )
+                            }
+                        }
+
                         2 -> {
                             Column(
-                                modifier = Modifier.fillMaxSize().background(Marron),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Marron),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
@@ -84,9 +90,12 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
+
                         3 -> {
                             Column(
-                                modifier = Modifier.fillMaxSize().background(Brown),
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Brown),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
