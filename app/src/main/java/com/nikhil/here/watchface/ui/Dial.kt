@@ -20,19 +20,21 @@ fun DrawScope.dial(
 ) {
     var stepsAngle = 0
 
+    //this will draw 60 steps
     repeat(60) { steps ->
 
+        //fiveStep lineHeight > normalStep lineHeight
         val stepsHeight = if (steps % 5 == 0) {
             dialStyle.fiveStepsLineHeight.toPx()
         } else {
             dialStyle.normalStepsLineHeight.toPx()
         }
 
+        //calculate steps, start and end offset
         val stepsStartOffset = Offset(
             x = center.x + (radius * cos((stepsAngle + rotation) * (Math.PI / 180f))).toFloat(),
             y = center.y - (radius * sin((stepsAngle + rotation) * (Math.PI / 180))).toFloat()
         )
-
         val stepsEndOffset = Offset(
             x = center.x + (radius - stepsHeight) * cos(
                 (stepsAngle + rotation) * (Math.PI / 180)
@@ -42,6 +44,7 @@ fun DrawScope.dial(
             ).toFloat()
         )
 
+        //draw step
         drawLine(
             color = dialStyle.stepsColor,
             start = stepsStartOffset,
@@ -50,12 +53,16 @@ fun DrawScope.dial(
             cap = StrokeCap.Round
         )
 
+        //draw steps labels
         if (steps % 5 == 0) {
+            //measure the given label width and height
             val stepsLabel = String.format("%02d", steps)
             val stepsLabelTextLayout = textMeasurer.measure(
                 text = buildAnnotatedString { append(stepsLabel) },
                 style = dialStyle.stepsTextStyle
             )
+
+            //calculate the offset
             val stepsLabelOffset = Offset(
                 x = center.x + (radius - stepsHeight - dialStyle.stepsLabelTopPadding.toPx()) * cos(
                     (stepsAngle + rotation) * (Math.PI / 180)
@@ -65,6 +72,7 @@ fun DrawScope.dial(
                 ).toFloat()
             )
 
+            //subtract the label width and height to position label at the center of the step
             val stepsLabelTopLeft = Offset(
                 stepsLabelOffset.x - ((stepsLabelTextLayout.size.width) / 2f),
                 stepsLabelOffset.y - (stepsLabelTextLayout.size.height / 2f)
