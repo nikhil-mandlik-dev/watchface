@@ -35,10 +35,7 @@ class MainActivity : ComponentActivity() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Clock(
-                        modifier = Modifier.size(340.dp),
-                        clockStyle = lightStyle
-                    )
+                    Clock()
                 }
             }
         }

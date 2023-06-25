@@ -16,7 +16,7 @@ data class DialStyle(
     val normalStepsLineHeight: Dp = 8.dp,
     val fiveStepsLineHeight: Dp = 16.dp,
     val stepsTextStyle: TextStyle = TextStyle(),
-    val stepsLabelTopPadding: Dp = 12.dp,
+    val stepsLabelTopPadding: Dp = 20.dp,
 )
 
 data class ClockStyle(

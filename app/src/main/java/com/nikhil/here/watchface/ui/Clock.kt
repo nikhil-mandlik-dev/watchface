@@ -30,7 +30,7 @@ private const val TAG = "Clock"
 @OptIn(ExperimentalTextApi::class)
 @Composable
 fun Clock(
-    modifier: Modifier,
+    modifier: Modifier =  Modifier.size(340.dp),
     clockStyle: ClockStyle = ClockStyle()
 ) {
     val textMeasurer = rememberTextMeasurer()
