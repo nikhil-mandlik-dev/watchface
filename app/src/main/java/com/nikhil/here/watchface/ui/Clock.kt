@@ -55,9 +55,9 @@ fun Clock(
         while (true) {
             //in-order to get smooth transition we are updating rotation angle every 16ms
             //1000ms -> 6 degree
-            //16ms -> 0.084
+            //16ms -> 0.096
             delay(16)
-            secondRotation -= 0.084f
+            secondRotation -= 0.096f
         }
     }
 
